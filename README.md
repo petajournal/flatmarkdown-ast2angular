@@ -10,6 +10,12 @@ npm install flatmarkdown-ast2angular flatmarkdown-ast
 
 Peer dependencies: `@angular/core`, `@angular/common`, `@angular/router` (^21.0.0), `flatmarkdown-ast` (^0.1.0).
 
+## Publish
+
+```bash
+npm run publish:npm
+```
+
 ## Usage
 
 Import `FmRootComponent` in your component:
