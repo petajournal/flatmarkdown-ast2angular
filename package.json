@@ -1,6 +1,6 @@
 {
   "name": "flatmarkdown-ast2angular",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "description": "Render FlatMarkdown AST as native Angular components with routerLink support for wikilinks.",
   "repository": {
     "type": "git",
@@ -23,7 +23,8 @@
   "license": "MIT",
   "scripts": {
     "build": "ng-packagr -p ng-package.json",
-    "test": "vitest run"
+    "test": "vitest run",
+    "publish:npm": "npm run build && cd dist && npm publish"
   },
   "peerDependencies": {
     "@angular/common": "^21.0.0",
