@@ -19,8 +19,9 @@ export class FmRootComponent {
   readonly ast = input.required<AstNode | string>();
   readonly options = input<AngularRenderOptions>({});
 
-  readonly rootNode = computed<AstNode>(() => {
+  readonly rootNode = computed<AstNode | null>(() => {
     const v = this.ast();
+    if (!v) return null;
     return typeof v === 'string' ? JSON.parse(v) : v;
   });
 
