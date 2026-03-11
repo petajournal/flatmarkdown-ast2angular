@@ -7,8 +7,16 @@ export interface WikiLinkAngularOptions {
   cssClass?: string;
 }
 
+export interface HashtagAngularOptions {
+  /** Prefix prepended to the hashtag value for routerLink. Default: '' */
+  routerLinkPrefix?: string;
+  /** CSS class applied to hashtag anchors. */
+  cssClass?: string;
+}
+
 export interface AngularRenderOptions {
   wikilink?: WikiLinkAngularOptions;
+  hashtag?: HashtagAngularOptions;
 }
 
 export interface RenderContext {

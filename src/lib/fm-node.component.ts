@@ -310,6 +310,12 @@ import { extractText } from './utils';
         </a>
       }
 
+      @case ('hashtag') {
+        <a [routerLink]="hashtagRoute()"
+           [class]="context().options.hashtag?.cssClass || null"
+           data-hashtag="true">{{ $any(node()).value }}</a>
+      }
+
       @case ('footnote_reference') {
         <sup><a [href]="'#fn-' + $any(node()).name">{{ '[' + ($any(node()).ix + 1) + ']' }}</a></sup>
       }
@@ -369,6 +375,12 @@ export class FmNodeComponent {
     const n = this.node() as { url: string };
     const prefix = this.context().options.wikilink?.routerLinkPrefix ?? '';
     return prefix + n.url;
+  });
+
+  readonly hashtagRoute = computed(() => {
+    const n = this.node() as { value: string };
+    const prefix = this.context().options.hashtag?.routerLinkPrefix ?? '';
+    return prefix + n.value;
   });
 
   childContext(overrides: Partial<RenderContext>): RenderContext {

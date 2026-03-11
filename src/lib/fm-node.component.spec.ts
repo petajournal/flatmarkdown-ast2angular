@@ -543,6 +543,47 @@ describe('FmNodeComponent', () => {
     });
   });
 
+  describe('hashtag', () => {
+    it('renders <a> with data-hashtag', () => {
+      const el = render({
+        type: 'hashtag',
+        value: 'tag1',
+      });
+      const a = el.querySelector('a[data-hashtag]');
+      expect(a).toBeTruthy();
+      expect(a!.textContent).toContain('tag1');
+    });
+
+    it('uses routerLinkPrefix from hashtag options', () => {
+      const ctx = defaultContext({ hashtag: { routerLinkPrefix: '/tags/' } });
+      const el = render(
+        { type: 'hashtag', value: 'mytag' },
+        ctx,
+      );
+      const a = el.querySelector('a[data-hashtag]');
+      expect(a!.getAttribute('href')).toBe('/tags/mytag');
+    });
+
+    it('default prefix is empty string', () => {
+      const el = render({
+        type: 'hashtag',
+        value: 'mytag',
+      });
+      const a = el.querySelector('a[data-hashtag]');
+      expect(a!.getAttribute('href')).toBe('/mytag');
+    });
+
+    it('applies cssClass from hashtag options', () => {
+      const ctx = defaultContext({ hashtag: { cssClass: 'hashtag-link' } });
+      const el = render(
+        { type: 'hashtag', value: 'tag' },
+        ctx,
+      );
+      const a = el.querySelector('a[data-hashtag]');
+      expect(a!.classList.contains('hashtag-link')).toBe(true);
+    });
+  });
+
   describe('footnote_reference', () => {
     it('renders superscript link', () => {
       const el = render({ type: 'footnote_reference', name: 'fn1', ref_num: 1, ix: 0 });
