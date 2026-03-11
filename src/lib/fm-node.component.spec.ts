@@ -551,7 +551,7 @@ describe('FmNodeComponent', () => {
       });
       const a = el.querySelector('a[data-hashtag]');
       expect(a).toBeTruthy();
-      expect(a!.textContent).toContain('tag1');
+      expect(a!.textContent).toContain('#tag1');
     });
 
     it('uses routerLinkPrefix from hashtag options', () => {

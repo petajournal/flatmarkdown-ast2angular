@@ -313,7 +313,7 @@ import { extractText } from './utils';
       @case ('hashtag') {
         <a [routerLink]="hashtagRoute()"
            [class]="context().options.hashtag?.cssClass || null"
-           data-hashtag="true">{{ $any(node()).value }}</a>
+           data-hashtag="true">#{{ $any(node()).value }}</a>
       }
 
       @case ('footnote_reference') {
