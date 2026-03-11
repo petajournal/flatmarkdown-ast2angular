@@ -1,6 +1,6 @@
 {
   "name": "flatmarkdown-ast2angular",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Render FlatMarkdown AST as native Angular components with routerLink support for wikilinks.",
   "repository": {
     "type": "git",
