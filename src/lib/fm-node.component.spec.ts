@@ -279,9 +279,22 @@ describe('FmNodeComponent', () => {
       const div = el.querySelector('div.footnote');
       expect(div).toBeTruthy();
       expect(div!.id).toBe('fn-note1');
-      const label = div!.querySelector('a.footnote-label')!;
+      const label = div!.querySelector('p > a.footnote-label')!;
       expect(label.textContent).toBe('[note1]:');
       expect(label.getAttribute('href')).toBe('#fnref-note1');
+      // Template whitespace collapses in the browser, so it is normalized here
+      expect(div!.querySelector('p')!.textContent!.replace(/\s+/g, ' ').trim()).toBe('[note1]: footnote text');
+    });
+
+    it('keeps the label in front when the definition starts with another block', () => {
+      const el = render({
+        type: 'footnote_definition',
+        name: 'note1',
+        children: [{ type: 'code_block', literal: 'x', info: '', fenced: true, fence_char: '`', fence_length: 3, fence_offset: 0 } as any],
+      });
+      const div = el.querySelector('div.footnote')!;
+      expect(div.querySelector('p')).toBeNull();
+      expect(div.firstElementChild!.classList.contains('footnote-label')).toBe(true);
     });
   });
 

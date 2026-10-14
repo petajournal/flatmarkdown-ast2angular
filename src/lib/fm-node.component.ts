@@ -146,9 +146,17 @@ import { extractText } from './utils';
 
       @case ('footnote_definition') {
         <div class="footnote" [id]="'fn-' + $any(node()).name">
-          <a class="footnote-label" [href]="'#fnref-' + $any(node()).name">{{ '[' + $any(node()).name + ']:' }}</a>
-          @for (child of children(); track $index) {
-            <fm-node [node]="child" [context]="context()" />
+          <!-- The label goes inside the first paragraph so that the body continues on the same line without any CSS. -->
+          @if (footnoteLead(); as lead) {
+            <p><a class="footnote-label" [href]="'#fnref-' + $any(node()).name">{{ '[' + $any(node()).name + ']:' }}</a>&ngsp;@for (child of lead; track $index) {<fm-node [node]="child" [context]="context()" />}</p>
+            @for (child of footnoteRest(); track $index) {
+              <fm-node [node]="child" [context]="context()" />
+            }
+          } @else {
+            <a class="footnote-label" [href]="'#fnref-' + $any(node()).name">{{ '[' + $any(node()).name + ']:' }}</a>
+            @for (child of children(); track $index) {
+              <fm-node [node]="child" [context]="context()" />
+            }
           }
         </div>
       }
@@ -364,6 +372,14 @@ export class FmNodeComponent {
     const n = this.node();
     return 'children' in n && n.children ? n.children : [];
   });
+
+  /** The inline children of the first paragraph of a footnote definition, or null when it starts with another block. */
+  readonly footnoteLead = computed(() => {
+    const first = this.children()[0];
+    return first && first.type === 'paragraph' ? (first.children ?? []) : null;
+  });
+
+  readonly footnoteRest = computed(() => this.children().slice(1));
 
   readonly cellAlignment = computed(() => {
     const ctx = this.context();
