@@ -146,11 +146,10 @@ import { extractText } from './utils';
 
       @case ('footnote_definition') {
         <div class="footnote" [id]="'fn-' + $any(node()).name">
-          <span class="footnote-label">{{ '[' + $any(node()).name + ']:' }}</span>
+          <a class="footnote-label" [href]="'#fnref-' + $any(node()).name">{{ '[' + $any(node()).name + ']:' }}</a>
           @for (child of children(); track $index) {
             <fm-node [node]="child" [context]="context()" />
           }
-          <a class="footnote-backref" [href]="'#fnref-' + $any(node()).name">↩</a>
         </div>
       }
 

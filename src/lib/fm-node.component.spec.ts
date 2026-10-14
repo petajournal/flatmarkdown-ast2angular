@@ -279,8 +279,9 @@ describe('FmNodeComponent', () => {
       const div = el.querySelector('div.footnote');
       expect(div).toBeTruthy();
       expect(div!.id).toBe('fn-note1');
-      expect(div!.querySelector('.footnote-label')!.textContent).toBe('[note1]:');
-      expect(div!.querySelector('a.footnote-backref')!.getAttribute('href')).toBe('#fnref-note1');
+      const label = div!.querySelector('a.footnote-label')!;
+      expect(label.textContent).toBe('[note1]:');
+      expect(label.getAttribute('href')).toBe('#fnref-note1');
     });
   });
 
