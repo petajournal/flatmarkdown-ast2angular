@@ -279,6 +279,8 @@ describe('FmNodeComponent', () => {
       const div = el.querySelector('div.footnote');
       expect(div).toBeTruthy();
       expect(div!.id).toBe('fn-note1');
+      expect(div!.querySelector('.footnote-label')!.textContent).toBe('[note1]:');
+      expect(div!.querySelector('a.footnote-backref')!.getAttribute('href')).toBe('#fnref-note1');
     });
   });
 
@@ -590,12 +592,13 @@ describe('FmNodeComponent', () => {
       const a = el.querySelector('sup > a');
       expect(a).toBeTruthy();
       expect(a!.getAttribute('href')).toBe('#fn-fn1');
-      expect(a!.textContent).toContain('[1]');
+      expect(a!.textContent).toContain('[fn1]');
+      expect(el.querySelector('sup')!.id).toBe('fnref-fn1');
     });
 
-    it('uses ix+1 for display number', () => {
+    it('shows the label, not ix, because ix restarts in every item', () => {
       const el = render({ type: 'footnote_reference', name: 'fn2', ref_num: 2, ix: 4 });
-      expect(el.querySelector('sup > a')!.textContent).toContain('[5]');
+      expect(el.querySelector('sup > a')!.textContent).toContain('[fn2]');
     });
   });
 

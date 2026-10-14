@@ -146,9 +146,11 @@ import { extractText } from './utils';
 
       @case ('footnote_definition') {
         <div class="footnote" [id]="'fn-' + $any(node()).name">
+          <span class="footnote-label">{{ '[' + $any(node()).name + ']:' }}</span>
           @for (child of children(); track $index) {
             <fm-node [node]="child" [context]="context()" />
           }
+          <a class="footnote-backref" [href]="'#fnref-' + $any(node()).name">↩</a>
         </div>
       }
 
@@ -317,7 +319,8 @@ import { extractText } from './utils';
       }
 
       @case ('footnote_reference') {
-        <sup><a [href]="'#fn-' + $any(node()).name">{{ '[' + ($any(node()).ix + 1) + ']' }}</a></sup>
+        <!-- The label is shown instead of ix: an item body is parsed alone, so ix restarts at 1 in every item. -->
+        <sup class="footnote-ref" [id]="'fnref-' + $any(node()).name"><a [href]="'#fn-' + $any(node()).name">{{ '[' + $any(node()).name + ']' }}</a></sup>
       }
 
       @case ('shortcode') {
