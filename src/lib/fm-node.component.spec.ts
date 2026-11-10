@@ -175,17 +175,20 @@ describe('FmNodeComponent', () => {
   });
 
   describe('item', () => {
-    it('renders <li> and passes tight context', () => {
-      const el = render({
-        type: 'item',
-        list_type: 'bullet',
-        start: 0,
-        tight: true,
-        children: [{ type: 'paragraph', children: [{ type: 'text', value: 'tight item' }] }],
-      });
+    // tightなリストの中では、itemの段落の<p>を外す
+    it('renders <li> and drops <p> in a tight list', () => {
+      const el = render(
+        {
+          type: 'item',
+          list_type: 'bullet',
+          start: 0,
+          tight: false,
+          children: [{ type: 'paragraph', children: [{ type: 'text', value: 'tight item' }] }],
+        },
+        { ...defaultContext(), tightList: true },
+      );
       const li = el.querySelector('li');
       expect(li).toBeTruthy();
-      // tight=true: paragraph should NOT be wrapped in <p>
       expect(li!.querySelector('p')).toBeNull();
       expect(li!.textContent).toContain('tight item');
     });

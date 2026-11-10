@@ -75,13 +75,13 @@ import { extractText } from './utils';
         @if ($any(node()).list_type === 'ordered') {
           <ol [attr.start]="$any(node()).start != null && $any(node()).start !== 1 ? $any(node()).start : null">
             @for (child of children(); track $index) {
-              <fm-node [node]="child" [context]="context()" />
+              <fm-node [node]="child" [context]="childContext({ tightList: $any(node()).tight })" />
             }
           </ol>
         } @else {
           <ul>
             @for (child of children(); track $index) {
-              <fm-node [node]="child" [context]="context()" />
+              <fm-node [node]="child" [context]="childContext({ tightList: $any(node()).tight })" />
             }
           </ul>
         }
@@ -90,7 +90,7 @@ import { extractText } from './utils';
       @case ('item') {
         <li>
           @for (child of children(); track $index) {
-            <fm-node [node]="child" [context]="childContext({ tightList: $any(node()).tight })" />
+            <fm-node [node]="child" [context]="context()" />
           }
         </li>
       }
