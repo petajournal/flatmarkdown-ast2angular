@@ -211,7 +211,7 @@ describe('FmNodeComponent', () => {
           tight: false,
           children: [{ type: 'paragraph', children: [{ type: 'text', value: 'tight item' }] }],
         },
-        { ...defaultContext(), tightList: true },
+        { ...defaultContext(), inTightList: true },
       );
       const li = el.querySelector('li');
       expect(li).toBeTruthy();
