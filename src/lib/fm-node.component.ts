@@ -75,13 +75,13 @@ import { extractText } from './utils';
         @if ($any(node()).list_type === 'ordered') {
           <ol [attr.start]="$any(node()).start != null && $any(node()).start !== 1 ? $any(node()).start : null">
             @for (child of children(); track $index) {
-              <fm-node [node]="child" [context]="context()" />
+              <fm-node [node]="child" [context]="childContext({ inTightList: $any(node()).tight })" />
             }
           </ol>
         } @else {
           <ul>
             @for (child of children(); track $index) {
-              <fm-node [node]="child" [context]="context()" />
+              <fm-node [node]="child" [context]="childContext({ inTightList: $any(node()).tight })" />
             }
           </ul>
         }
@@ -90,7 +90,7 @@ import { extractText } from './utils';
       @case ('item') {
         <li>
           @for (child of children(); track $index) {
-            <fm-node [node]="child" [context]="childContext({ tightList: $any(node()).tight })" />
+            <fm-node [node]="child" [context]="itemChildContext(child, context().inTightList)" />
           }
         </li>
       }
@@ -99,7 +99,7 @@ import { extractText } from './utils';
         <li>
           <input type="checkbox" [checked]="$any(node()).symbol != null" disabled />
           @for (child of children(); track $index) {
-            <fm-node [node]="child" [context]="childContext({ tightList: true })" />
+            <fm-node [node]="child" [context]="itemChildContext(child, true)" />
           }
         </li>
       }
@@ -403,5 +403,11 @@ export class FmNodeComponent {
 
   childContext(overrides: Partial<RenderContext>): RenderContext {
     return { ...this.context(), ...overrides };
+  }
+
+  // The context for a child of a list item. Only a paragraph that is a direct
+  // child loses its <p>; a paragraph deeper (in a block quote, for example) keeps it.
+  itemChildContext(child: AstNode, tight: boolean): RenderContext {
+    return this.childContext({ tightList: tight && child.type === 'paragraph' });
   }
 }
